@@ -1,0 +1,25 @@
+php artisan tinker
+use App\Models\Curso;
+$cursos = Curso::all(); //Trae todos los cursos
+$cursos = Curso::where('categoria','Diseño Web')->get(); //Uso de where para traer una colección de datos
+$cursos = Curso::where('categoria','Diseño Web')->orderBy('id','desc')->get(); // Se ordena usando el id de forma descendente
+$cursos = Curso::where('categoria','Diseño Web')->orderBy('name','asc')->get(); // Se ordena usando el campo name de forma ascendente
+$curso = Curso::where('categoria','Diseño Web')->orderBy('name','asc')->first(); //Obtiene un solo elemento utilizando los parámetros anteriores
+$cursos = Curso::select('name','descripcion')->get(); //Obtiene una colección correspondiente a los cursos, mostrando los campos name y descripción
+$cursos = Curso::select('name','descripcion')->orderBy('name','asc')->get(); //Ordena la consulta anterior usando el campo name de forma ascendente
+$cursos = Curso::select('name','descripcion')->orderBy('name','asc')->where('categoria','Diseño Web')->get(); // Agrega el filtro where, en donde pide que traiga los registros que correspondan a la categoria Diseño Web
+$cursos = Curso::select('name','descripcion','categoria')->orderBy('name','asc')->where('categoria','Diseño Web')->get(); //Añade el campo categoria, para verificar que la colección corresponde con lo esperado
+$cursos = Curso::select('name as title','descripcion','categoria')->orderBy('name','asc')->where('categoria','Diseño Web')->get(); // Especifica que el campo name deberá ser mostrado como title
+$cursos = Curso::select('name as title','descripcion','categoria')->orderBy('name','asc')->where('categoria','Diseño Web')->take(5)->get(); //Utiliza la función take() para obtener un número dado de registros que cumplan con los filtros
+
+$curso = Curso::where('name','Voluptas voluptatem ut fugiat aut eum quia.')->get(); //Utiliza where para buscar el registro, en el cual, el campo name contenga el parámetro dado, al utilizar get() obtiene una colección
+$curso->name;//Al intentar acceder da error, puesto que esto es una colección no un objeto
+
+$curso = Curso::where('name','Voluptas voluptatem ut fugiat aut eum quia.')->first();//Utiliza first para obtener un objeto correspondiente al filtro
+$curso->name;//Al ser un objeto, esta ves, si podrá acceder a la propiedad del objeto
+$curso = Curso::where('id',5)->first(); // Obtiene el registro cuya propiedad id corresponda al valor dado
+$curso = Curso::find(5);// Se utiliza el método find() para obtener el mismo resultado de la consulta anterior, pero con menos código
+$curso->descripcion; //Accede a la propiedad descripción de dicho objeto
+$cursos = Curso::where('id','>',45)->get();//Obtiene los registros cuyo ID sea mayor que 45 //En matemáticas a esto se le llama intervalo abierto
+$cursos = Curso::where('id','>=',45)->get();//Obtiene los registros cuyo ID sea igual o mayor a 45 //En matemáticas a esto se le llama intervalo cerrado
+$cursos = Curso::where('name','like','% voluptate %')->get(); // Obtiene una colección de datos que contengan en su campo name el valor dado
