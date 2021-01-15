@@ -1,0 +1,74 @@
+
+El funcionamiento correcto de la funcionamiento de la funcionamiento resource del objeto Route dependerá de el uso de las convenciones
+
+La función names, es utilizada para darle los nombres a las rutas
+
+En este caso, los nombres para la ruta "asignaturas" se esperaban como:
+"asignaturas.index"
+"asignaturas.create"
+Con la función names los nombres serán generados de la siguiente manera
+"cursos.index"
+"cursos.create"
+
+
+La función parameters recibe la ruta y el nombre que se requiere para los parámetros
+
+Mientras que los parámetros se esperan de la siguiente manera
+asignaturas/{asignatura}
+asignatura/{asignatura}/editar
+Con la función parameters se cambia a
+asignaturas/{curso}
+asignatura/{curso}/editar
+
+
+Rutas con :
+
+Route::resource('asignaturas',CursoController::class)->names('cursos');
+
+|        | GET|HEAD  | asignaturas                     | cursos.index   | App\Http\Controllers\CursoController@index   | web        |
+|        | POST      | asignaturas                     | cursos.store   | App\Http\Controllers\CursoController@store   | web        |
+|        | GET|HEAD  | asignaturas/crear               | cursos.create  | App\Http\Controllers\CursoController@create  | web        |
+|        | GET|HEAD  | asignaturas/{asignatura}        | cursos.show    | App\Http\Controllers\CursoController@show    | web        |
+|        | PUT|PATCH | asignaturas/{asignatura}        | cursos.update  | App\Http\Controllers\CursoController@update  | web        |
+|        | DELETE    | asignaturas/{asignatura}        | cursos.destroy | App\Http\Controllers\CursoController@destroy | web        |
+|        | GET|HEAD  | asignaturas/{asignatura}/editar | cursos.edit    | App\Http\Controllers\CursoController@edit    | web        |
++--------+-----------+---------------------------------+----------------+----------------------------------------------+------------+
+
+Rutas con:
+
+Route::resource('asignaturas',CursoController::class)->parameters(['asignaturas' =>'curso'])->names('cursos');
+
+
+|        | GET|HEAD  | asignaturas                | cursos.index   | App\Http\Controllers\CursoController@index   | web        |
+|        | POST      | asignaturas                | cursos.store   | App\Http\Controllers\CursoController@store   | web        |
+|        | GET|HEAD  | asignaturas/crear          | cursos.create  | App\Http\Controllers\CursoController@create  | web        |
+|        | GET|HEAD  | asignaturas/{curso}        | cursos.show    | App\Http\Controllers\CursoController@show    | web        |
+|        | PUT|PATCH | asignaturas/{curso}        | cursos.update  | App\Http\Controllers\CursoController@update  | web        |
+|        | DELETE    | asignaturas/{curso}        | cursos.destroy | App\Http\Controllers\CursoController@destroy | web        |
+|        | GET|HEAD  | asignaturas/{curso}/editar | cursos.edit    | App\Http\Controllers\CursoController@edit    | web        |
+
+Rutas con:
+
+Route::resource('cursos',CursoController::class);
+
+|        | GET|HEAD  | cursos                | cursos.index   | App\Http\Controllers\CursoController@index   | web        |
+|        | POST      | cursos                | cursos.store   | App\Http\Controllers\CursoController@store   | web        |
+|        | GET|HEAD  | cursos/crear          | cursos.create  | App\Http\Controllers\CursoController@create  | web        |
+|        | GET|HEAD  | cursos/{curso}        | cursos.show    | App\Http\Controllers\CursoController@show    | web        |
+|        | PUT|PATCH | cursos/{curso}        | cursos.update  | App\Http\Controllers\CursoController@update  | web        |
+|        | DELETE    | cursos/{curso}        | cursos.destroy | App\Http\Controllers\CursoController@destroy | web        |
+|        | GET|HEAD  | cursos/{curso}/editar | cursos.edit    | App\Http\Controllers\CursoController@edit    | web        |
++--------+-----------+-----------------------+----------------+----------------------------------------------+------------+
+
+Para modificar los verbos utilizados en las rutas dirigirse a:
+app/Providers/AppServiceProvider.php
+
+importar a use Illuminate\Support\Facades\Route;
+y pegar dentro de la función boot
+
+ Route::resourceVerbs([
+            'create' => 'crear',
+            'edit' => 'editar',
+        ]);
+
+De esta manera las palabras create y edit cambiaran por las definidas en el arreglo
