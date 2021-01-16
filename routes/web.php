@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CursoController;
+
+use App\Mail\ContactanosMailable;
+use Illuminate\Support\Facades\Mail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +23,12 @@ Route::get('/',HomeController::class)->name('home');
 Route::resource('cursos', CursoController::class);
 
 Route::view('nosotros','nosotros')->name('nosotros');
+
+Route::get('contactanos',function(){
+    $correo = new ContactanosMailable;
+
+    Mail::to('earhackerdem@gmail.com')->send($correo);
+
+    return "Mensaje enviado";
+
+});
