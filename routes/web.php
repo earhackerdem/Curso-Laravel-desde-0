@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\ContactanosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CursoController;
 
-use App\Mail\ContactanosMailable;
-use Illuminate\Support\Facades\Mail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +24,6 @@ Route::resource('cursos', CursoController::class);
 
 Route::view('nosotros','nosotros')->name('nosotros');
 
-Route::get('contactanos',function(){
-    $correo = new ContactanosMailable;
+Route::get('contactanos',[ContactanosController::class,'index'])->name('contactanos.index');
 
-    Mail::to('earhackerdem@gmail.com')->send($correo);
-
-    return "Mensaje enviado";
-
-});
+Route::post('contactanos',[ContactanosController::class,'store'])->name('contactanos.store');
